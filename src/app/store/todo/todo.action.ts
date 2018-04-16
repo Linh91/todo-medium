@@ -36,8 +36,21 @@ export class GetTodo implements Action {
    readonly type = GET_TODO;
 
    constructor(payload: string) {}
+}
+
+export class GetTodoSuccess implements Action {
+    readonly type = GET_TODO_SUCCESS;
+
+    constructor(public payload: Todo) {}
+}
+
+export class GetTodoError implements Action {
+    readonly type = GET_TODO_ERROR;
 
 }
+
+export type All = GetTodo | GetTodoSuccess | GetTodoError |
+GetTodos | GetTodosSuccess | GetTodosError;
 // Actions define the changes of the Data
 // We are exporting the const, because we will need these in the reducer and effects later
 // Const string will define type of actions
