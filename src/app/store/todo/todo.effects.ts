@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment.prod';
 import { TodoState } from './todo.state';
 import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/map';
@@ -27,11 +28,11 @@ export class TodoEffects {
     ofType<TodoActions.GetTodos>(TodoActions.GET_TODOS)
     .mergeMap(action =>
         this.http.get(environment.client.base_url + '/api/todos')
-        .map((data: Response) => {
+            .map((data: Response) => {
 
-            console.log(data);
-            return new TodoActions.GetTodosSuccess(data['data']['docs'] as TodoState[]);
-        })
+                console.log(data);
+                return new TodoActions.GetTodosSuccess(data['data']['docs'] as TodoState[]);
+            })
         .catch(() => of(new TodoActions.GetTodoError()))
     );
 
@@ -40,12 +41,12 @@ export class TodoEffects {
     ofType<TodoActions.CreateTodo>(TodoActions.CREATE_TODO)
     .mergeMap(action =>
         this.http.post(environment.client.base_url + '/api/todos', action.payload)
-        .map((data: Response) => {
+            .map((data: Response) => {
 
-            return new TodoActions.CreateTodoSuccess({
-                ...data['data'], loading: false
-            });
-        })
+                return new TodoActions.CreateTodoSuccess({
+                    ...data['data'], loading: false
+                });
+            })
         .catch(() => of(new TodoActions.CreateTodoError()))
     );
 
@@ -54,11 +55,24 @@ export class TodoEffects {
     ofType<TodoActions.DeleteTodo>(TodoActions.DELETE_TODO)
     .mergeMap(action =>
         this.http.delete(environment.client.base_url + '/api/todos/' + action.payload._id)
-        .map((date: Response) => {
-            return new TodoActions.DeleteTodoSuccess({
-                ...action.payload, loading: false
-            });
-        })
+            .map((date: Response) => {
+                return new TodoActions.DeleteTodoSuccess({
+                    ...action.payload, loading: false
+                });
+            })
         .catch(() => of(new TodoActions.DeleteTodoError(action.payload)))
     );
+
+    @Effect()
+    updateTodo$: Observable<Action> = this.actions$.
+    ofType<TodoActions.UpdateTodo>(TodoActions.UPDATE_TODO)
+    .mergeMap(action =>
+        this.http.put(environment.client.base_url + '/api/todos', action.payload)
+            .map((date: Response) => {
+                return new TodoActions.UpdateTodoSuccess({
+                    ...action.payload, loading: false, editing: false
+                });
+            })
+            .catch(() => of(new TodoActions.DeleteTodoError(action.payload)))
+        );
 }
