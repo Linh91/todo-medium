@@ -1,4 +1,3 @@
-import { environment } from './../../../environments/environment.prod';
 import { TodoState } from './todo.state';
 import { environment } from '../../../environments/environment';
 import 'rxjs/add/operator/map';

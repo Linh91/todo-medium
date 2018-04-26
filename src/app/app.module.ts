@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TodoListComponent } from './components/todo/todo-list/todo-list.component';
 import { TodoDetailsComponent } from './components/todo/todo-details/todo-details.component';
 import { EffectsModule } from '@ngrx/effects';
